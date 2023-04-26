@@ -1,0 +1,17 @@
+﻿<Page x:Class="CinemaApp.View.Client.UserLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CinemaApp.View.Client"
+        mc:Ignorable="d"
+        Title="User_Login" Height="450" Width="800">
+    <Grid Background="White">
+        <TextBox Name="Login" FontSize="15" materialDesign:HintAssist.Hint="ЛОГИН" Style="{DynamicResource MaterialDesignTextBox}" Margin="53,133,345,272"/>
+        <TextBox Name="Password" FontSize="15" materialDesign:HintAssist.Hint="ПАРОЛЬ" Style="{DynamicResource MaterialDesignTextBox}" Margin="53,235,345,170" />
+        <TextBlock Name ="RegMainUp" Style="{DynamicResource MaterialDesignHeadline2TextBlock}" Foreground="Black" Margin="35,54,576,342" FontFamily="Arial Black" FontSize="25" >Авторизация</TextBlock>
+        <Button Name="UserMainPg" Margin="703,392,11,10" Style="{DynamicResource MaterialDesignOutlinedButton}" Click="UserMainPG_Click" >Далее</Button>
+        <Button Name="UserReg" Margin="516,400,102,18" Style="{DynamicResource MaterialDesignOutlinedButton}" Click="User_Reg_Click" >Зарегестрироваться</Button>
+    </Grid>
+</Page>
