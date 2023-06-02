@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище CinemaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище CinemaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="id_Client" />
@@ -27,7 +27,7 @@
           <Property Name="Actors" Type="nvarchar" MaxLength="100" />
           <Property Name="Genre" Type="nvarchar" MaxLength="32" />
           <Property Name="Duration" Type="time" Precision="7" />
-          <Property Name="Image" Type="binary" MaxLength="1" />
+          <Property Name="Image" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Hall">
           <Key>
@@ -55,6 +55,7 @@
           <Property Name="Grand_Total" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Order_Details" Type="nvarchar" MaxLength="30" />
           <Property Name="id_Ticket" Type="int" Nullable="false" />
+          <Property Name="id_Session" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -74,6 +75,17 @@
           <Property Name="Date_Film" Type="date" Nullable="false" />
           <Property Name="Purchased_Tickets" Type="int" />
           <Property Name="id_Cinema" Type="int" Nullable="false" />
+          <Property Name="is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
@@ -87,6 +99,7 @@
           <Property Name="Price_Ticket" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Row" Type="int" Nullable="false" />
           <Property Name="Place" Type="int" Nullable="false" />
+          <Property Name="Session" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -97,6 +110,26 @@
           <Property Name="Password" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="id_Role" Type="int" Nullable="false" />
           <Property Name="id_Client" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Cinema.dbo.CinemaPlace" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="CinemaPlace">
+          <Key>
+            <PropertyRef Name="id_Session" />
+            <PropertyRef Name="Row" />
+            <PropertyRef Name="Place" />
+            <PropertyRef Name="Num_Ticket" />
+            <PropertyRef Name="id_Ticket" />
+            <PropertyRef Name="id_Hall" />
+            <PropertyRef Name="Price_Film" />
+          </Key>
+          <Property Name="id_Session" Type="int" Nullable="false" />
+          <Property Name="Row" Type="int" Nullable="false" />
+          <Property Name="Place" Type="int" Nullable="false" />
+          <Property Name="Num_Ticket" Type="int" Nullable="false" />
+          <Property Name="id_Ticket" Type="int" Nullable="false" />
+          <Property Name="id_Hall" Type="int" Nullable="false" />
+          <Property Name="Price_Film" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "Cinema.dbo.Get_All_Session" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -110,6 +143,7 @@
             <PropertyRef Name="Session$id_Film" />
             <PropertyRef Name="Hall$Row" />
             <PropertyRef Name="Hall$Number_Seats" />
+            <PropertyRef Name="Session$is_Deleted" />
           </Key>
           <Property Name="Session$id_Session" Type="int" Nullable="false" />
           <Property Name="Session$Price_Film" Type="decimal" Precision="18" Scale="0" Nullable="false" />
@@ -123,12 +157,13 @@
           <Property Name="Inf_Cinema$Cinema_Description" Type="nvarchar" MaxLength="200" />
           <Property Name="Inf_Cinema$Cinema_Adress" Type="nvarchar" MaxLength="50" />
           <Property Name="Inf_Cinema$Cinema_Phone" Type="nvarchar" MaxLength="32" />
-          <Property Name="Film$Name_Film" Type="nvarchar" MaxLength="52" />
           <Property Name="Film$Description" Type="nvarchar" MaxLength="32" />
           <Property Name="Film$Actors" Type="nvarchar" MaxLength="100" />
           <Property Name="Film$Genre" Type="nvarchar" MaxLength="32" />
           <Property Name="Film$Duration" Type="time" Precision="7" />
-          <Property Name="Film$Image" Type="binary" MaxLength="1" />
+          <Property Name="Film$Image" Type="nvarchar(max)" />
+          <Property Name="Film$Name_Film" Type="nvarchar" MaxLength="52" />
+          <Property Name="Session$is_Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Cinema_To_Session">
           <End Role="Inf_Cinema" Type="Self.Inf_Cinema" Multiplicity="1" />
@@ -163,6 +198,18 @@
             </Principal>
             <Dependent Role="Session">
               <PropertyRef Name="id_Hall" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Ticket">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="id_Ticket" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="id_Ticket" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -202,30 +249,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Ticket_To_Order">
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ticket">
-              <PropertyRef Name="id_Ticket" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="id_Ticket" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_To_Order">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id_User" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="id_User" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Хранилище CinemaModelContainer">
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Film" EntityType="Self.Film" Schema="dbo" store:Type="Tables" />
@@ -234,8 +288,20 @@
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CinemaPlace" EntityType="Self.CinemaPlace" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CinemaPlace].[id_Session] AS [id_Session], 
+    [CinemaPlace].[Row] AS [Row], 
+    [CinemaPlace].[Place] AS [Place], 
+    [CinemaPlace].[Num_Ticket] AS [Num_Ticket], 
+    [CinemaPlace].[id_Ticket] AS [id_Ticket], 
+    [CinemaPlace].[id_Hall] AS [id_Hall], 
+    [CinemaPlace].[Price_Film] AS [Price_Film]
+    FROM [dbo].[CinemaPlace] AS [CinemaPlace]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Get_All_Session" EntityType="Self.Get_All_Session" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Get_All_Session].[Session$id_Session] AS [Session$id_Session], 
@@ -250,12 +316,13 @@
     [Get_All_Session].[Inf_Cinema$Cinema_Description] AS [Inf_Cinema$Cinema_Description], 
     [Get_All_Session].[Inf_Cinema$Cinema_Adress] AS [Inf_Cinema$Cinema_Adress], 
     [Get_All_Session].[Inf_Cinema$Cinema_Phone] AS [Inf_Cinema$Cinema_Phone], 
-    [Get_All_Session].[Film$Name_Film] AS [Film$Name_Film], 
     [Get_All_Session].[Film$Description] AS [Film$Description], 
     [Get_All_Session].[Film$Actors] AS [Film$Actors], 
     [Get_All_Session].[Film$Genre] AS [Film$Genre], 
     [Get_All_Session].[Film$Duration] AS [Film$Duration], 
-    [Get_All_Session].[Film$Image] AS [Film$Image]
+    [Get_All_Session].[Film$Image] AS [Film$Image], 
+    [Get_All_Session].[Film$Name_Film] AS [Film$Name_Film], 
+    [Get_All_Session].[Session$is_Deleted] AS [Session$is_Deleted]
     FROM [dbo].[Get_All_Session] AS [Get_All_Session]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Cinema_To_Session" Association="Self.FK_Cinema_To_Session">
@@ -270,6 +337,10 @@
             <End Role="Hall" EntitySet="Hall" />
             <End Role="Session" EntitySet="Session" />
           </AssociationSet>
+          <AssociationSet Name="FK_Order_Ticket" Association="Self.FK_Order_Ticket">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_Role_To_User" Association="Self.FK_Role_To_User">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
@@ -282,17 +353,8 @@
             <End Role="Session" EntitySet="Session" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
-          <AssociationSet Name="FK_Ticket_To_Order" Association="Self.FK_Ticket_To_Order">
-            <End Role="Ticket" EntitySet="Ticket" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_To_Order" Association="Self.FK_User_To_Order">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -319,7 +381,7 @@
           <Property Name="Actors" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Genre" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Duration" Type="Time" Precision="7" />
-          <Property Name="Image" Type="Binary" MaxLength="1" FixedLength="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Session" Relationship="Self.FK_Session_To_Film" FromRole="Film" ToRole="Session" />
         </EntityType>
         <EntityType Name="Hall">
@@ -350,8 +412,8 @@
           <Property Name="Grand_Total" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="Order_Details" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="id_Ticket" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Ticket" Relationship="Self.FK_Ticket_To_Order" FromRole="Order" ToRole="Ticket" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_To_Order" FromRole="Order" ToRole="User" />
+          <Property Name="id_Session" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_Order_Ticket" FromRole="Order" ToRole="Ticket" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -376,6 +438,17 @@
           <NavigationProperty Name="Hall" Relationship="Self.FK_Hall_To_Session" FromRole="Session" ToRole="Hall" />
           <NavigationProperty Name="Inf_Cinema" Relationship="Self.FK_Cinema_To_Session" FromRole="Session" ToRole="Inf_Cinema" />
           <NavigationProperty Name="Ticket" Relationship="Self.FK_Session_To_Ticket" FromRole="Session" ToRole="Ticket" />
+          <Property Name="is_Deleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
@@ -389,8 +462,9 @@
           <Property Name="Price_Ticket" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Row" Type="Int32" Nullable="false" />
           <Property Name="Place" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Ticket_To_Order" FromRole="Ticket" ToRole="Order" />
-          <NavigationProperty Name="Session" Relationship="Self.FK_Session_To_Ticket" FromRole="Ticket" ToRole="Session" />
+          <Property Name="Session" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Ticket" FromRole="Ticket" ToRole="Order" />
+          <NavigationProperty Name="Session1" Relationship="Self.FK_Session_To_Ticket" FromRole="Ticket" ToRole="Session" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -402,8 +476,25 @@
           <Property Name="id_Role" Type="Int32" Nullable="false" />
           <Property Name="id_Client" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Client_To_User" FromRole="User" ToRole="Client" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_User_To_Order" FromRole="User" ToRole="Order" />
           <NavigationProperty Name="Role" Relationship="Self.FK_Role_To_User" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="CinemaPlace">
+          <Key>
+            <PropertyRef Name="id_Session" />
+            <PropertyRef Name="Row" />
+            <PropertyRef Name="Place" />
+            <PropertyRef Name="Num_Ticket" />
+            <PropertyRef Name="id_Ticket" />
+            <PropertyRef Name="id_Hall" />
+            <PropertyRef Name="Price_Film" />
+          </Key>
+          <Property Name="id_Session" Type="Int32" Nullable="false" />
+          <Property Name="Row" Type="Int32" Nullable="false" />
+          <Property Name="Place" Type="Int32" Nullable="false" />
+          <Property Name="Num_Ticket" Type="Int32" Nullable="false" />
+          <Property Name="id_Ticket" Type="Int32" Nullable="false" />
+          <Property Name="id_Hall" Type="Int32" Nullable="false" />
+          <Property Name="Price_Film" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Get_All_Session">
           <Key>
@@ -415,6 +506,7 @@
             <PropertyRef Name="Session_id_Film" />
             <PropertyRef Name="Hall_Row" />
             <PropertyRef Name="Hall_Number_Seats" />
+            <PropertyRef Name="Session_is_Deleted" />
           </Key>
           <Property Name="Session_id_Session" Type="Int32" Nullable="false" />
           <Property Name="Session_Price_Film" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
@@ -428,12 +520,13 @@
           <Property Name="Inf_Cinema_Cinema_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Inf_Cinema_Cinema_Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Inf_Cinema_Cinema_Phone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="Film_Name_Film" Type="String" MaxLength="52" FixedLength="false" Unicode="true" />
           <Property Name="Film_Description" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Film_Actors" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Film_Genre" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Film_Duration" Type="Time" Precision="7" />
-          <Property Name="Film_Image" Type="Binary" MaxLength="1" FixedLength="true" />
+          <Property Name="Film_Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Film_Name_Film" Type="String" MaxLength="52" FixedLength="false" Unicode="true" />
+          <Property Name="Session_is_Deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_To_User">
           <End Role="Client" Type="Self.Client" Multiplicity="1" />
@@ -483,7 +576,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Ticket_To_Order">
+        <Association Name="FK_Order_Ticket">
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -492,18 +585,6 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="id_Ticket" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_To_Order">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id_User" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="id_User" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -531,7 +612,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="CinemaEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="CinemaEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Client" EntityType="Self.Client" />
           <EntitySet Name="Film" EntityType="Self.Film" />
           <EntitySet Name="Hall" EntityType="Self.Hall" />
@@ -539,8 +620,10 @@
           <EntitySet Name="Order" EntityType="Self.Order" />
           <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="Session" EntityType="Self.Session" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" />
           <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="CinemaPlace" EntityType="Self.CinemaPlace" />
           <EntitySet Name="Get_All_Session" EntityType="Self.Get_All_Session" />
           <AssociationSet Name="FK_Client_To_User" Association="Self.FK_Client_To_User">
             <End Role="Client" EntitySet="Client" />
@@ -558,12 +641,8 @@
             <End Role="Inf_Cinema" EntitySet="Inf_Cinema" />
             <End Role="Session" EntitySet="Session" />
           </AssociationSet>
-          <AssociationSet Name="FK_Ticket_To_Order" Association="Self.FK_Ticket_To_Order">
+          <AssociationSet Name="FK_Order_Ticket" Association="Self.FK_Order_Ticket">
             <End Role="Ticket" EntitySet="Ticket" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_To_Order" Association="Self.FK_User_To_Order">
-            <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Role_To_User" Association="Self.FK_Role_To_User">
@@ -574,13 +653,54 @@
             <End Role="Session" EntitySet="Session" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(CinemaModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(CinemaModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище CinemaModelContainer" CdmEntityContainer="CinemaEntities1">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CinemaModelContainer" CdmEntityContainer="CinemaEntities2">
           <EntitySetMapping Name="Client">
             <EntityTypeMapping TypeName="CinemaModel.Client">
               <MappingFragment StoreEntitySet="Client">
@@ -634,6 +754,7 @@
                 <ScalarProperty Name="Grand_Total" ColumnName="Grand_Total" />
                 <ScalarProperty Name="Order_Details" ColumnName="Order_Details" />
                 <ScalarProperty Name="id_Ticket" ColumnName="id_Ticket" />
+                <ScalarProperty Name="id_Session" ColumnName="id_Session" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -648,6 +769,7 @@
           <EntitySetMapping Name="Session">
             <EntityTypeMapping TypeName="CinemaModel.Session">
               <MappingFragment StoreEntitySet="Session">
+                <ScalarProperty Name="is_Deleted" ColumnName="is_Deleted" />
                 <ScalarProperty Name="id_Session" ColumnName="id_Session" />
                 <ScalarProperty Name="id_Hall" ColumnName="id_Hall" />
                 <ScalarProperty Name="id_Film" ColumnName="id_Film" />
@@ -655,6 +777,17 @@
                 <ScalarProperty Name="Date_Film" ColumnName="Date_Film" />
                 <ScalarProperty Name="Purchased_Tickets" ColumnName="Purchased_Tickets" />
                 <ScalarProperty Name="id_Cinema" ColumnName="id_Cinema" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CinemaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -669,6 +802,7 @@
                 <ScalarProperty Name="Price_Ticket" ColumnName="Price_Ticket" />
                 <ScalarProperty Name="Row" ColumnName="Row" />
                 <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Session" ColumnName="Session" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -683,9 +817,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CinemaPlace">
+            <EntityTypeMapping TypeName="CinemaModel.CinemaPlace">
+              <MappingFragment StoreEntitySet="CinemaPlace">
+                <ScalarProperty Name="id_Session" ColumnName="id_Session" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Num_Ticket" ColumnName="Num_Ticket" />
+                <ScalarProperty Name="id_Ticket" ColumnName="id_Ticket" />
+                <ScalarProperty Name="id_Hall" ColumnName="id_Hall" />
+                <ScalarProperty Name="Price_Film" ColumnName="Price_Film" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Get_All_Session">
             <EntityTypeMapping TypeName="CinemaModel.Get_All_Session">
               <MappingFragment StoreEntitySet="Get_All_Session">
+                <ScalarProperty Name="Session_is_Deleted" ColumnName="Session$is_Deleted" />
                 <ScalarProperty Name="Session_id_Session" ColumnName="Session$id_Session" />
                 <ScalarProperty Name="Session_Price_Film" ColumnName="Session$Price_Film" />
                 <ScalarProperty Name="Session_Date_Film" ColumnName="Session$Date_Film" />
@@ -698,15 +846,39 @@
                 <ScalarProperty Name="Inf_Cinema_Cinema_Description" ColumnName="Inf_Cinema$Cinema_Description" />
                 <ScalarProperty Name="Inf_Cinema_Cinema_Adress" ColumnName="Inf_Cinema$Cinema_Adress" />
                 <ScalarProperty Name="Inf_Cinema_Cinema_Phone" ColumnName="Inf_Cinema$Cinema_Phone" />
-                <ScalarProperty Name="Film_Name_Film" ColumnName="Film$Name_Film" />
                 <ScalarProperty Name="Film_Description" ColumnName="Film$Description" />
                 <ScalarProperty Name="Film_Actors" ColumnName="Film$Actors" />
                 <ScalarProperty Name="Film_Genre" ColumnName="Film$Genre" />
                 <ScalarProperty Name="Film_Duration" ColumnName="Film$Duration" />
                 <ScalarProperty Name="Film_Image" ColumnName="Film$Image" />
+                <ScalarProperty Name="Film_Name_Film" ColumnName="Film$Name_Film" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище CinemaModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище CinemaModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище CinemaModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище CinemaModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CinemaModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище CinemaModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CinemaModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище CinemaModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище CinemaModel.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

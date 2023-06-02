@@ -1,0 +1,31 @@
+﻿<Window x:Class="CinemaApp.View.Admin.CRUDxaml.UpdatePage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CinemaApp.View.Admin.CRUDxaml"
+        xmlns:entityS1="clr-namespace:CinemaApp.data.EntityS"
+        mc:Ignorable="d"
+        Title="UpdatePage" Height="450" Width="800">
+    <Grid d:DataContext="{d:DesignInstance entityS1:Get_All_Session}">
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="104,33,0,0" TextWrapping="Wrap" Text="UPDATE" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="39,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Name"/></TextBlock>
+        <TextBox x:Name="nametextBox" HorizontalAlignment="Left"  Height="23" Margin="119,69,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Film_Name_Film}"/>
+
+        <Button x:Name="insertBtn" Content="update" HorizontalAlignment="Left" Margin="104,392,0,0" VerticalAlignment="Top" Width="130" Click="updateBtn_Click"/>
+        <TextBox x:Name="desctextBox" HorizontalAlignment="Left" Height="23" Margin="119,109,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Film_Description}"/>
+        <TextBox x:Name="acttextBox" HorizontalAlignment="Left" Height="23" Margin="119,147,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Film_Actors}"/>
+        <TextBox x:Name="genrtextBox" HorizontalAlignment="Left" Height="23" Margin="119,186,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Film_Genre}"/>
+        <DatePicker x:Name="durattextBox" HorizontalAlignment="Left" Height="23" Margin="119,226,0,0"  VerticalAlignment="Top" Width="404" Text="{Binding Session_Date_Film}"/>
+        <TextBox x:Name="imagetextBox" HorizontalAlignment="Left" Height="23" Margin="119,274,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Film_Image}"/>
+        <TextBlock x:Name="textBlock1_Copy" HorizontalAlignment="Left" Margin="39,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Description"/></TextBlock>
+        <TextBlock x:Name="textBlock1_Copy1" HorizontalAlignment="Left" Margin="39,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Actors"/></TextBlock>
+        <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Margin="39,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Genre"/></TextBlock>
+        <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Margin="39,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Date"/></TextBlock>
+        <TextBlock x:Name="textBlock1_Copy4" HorizontalAlignment="Left" Margin="39,273,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Image"/></TextBlock>
+        <TextBox x:Name="actiontextBox_Copy" HorizontalAlignment="Left" Height="23" Margin="119,318,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Session_is_Deleted}"/>
+        <TextBlock x:Name="actionBlock1_Copy5" HorizontalAlignment="Left" Margin="39,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="is_Deleted"/></TextBlock>
+        <TextBox x:Name="actiontextBox_Copy1" HorizontalAlignment="Left" Height="23" Margin="119,359,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="404" Text="{Binding Session_Price_Film}"/>
+        <TextBlock x:Name="actionBlock1_Copy" HorizontalAlignment="Left" Margin="39,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Price"/></TextBlock>
+    </Grid>
+</Window>

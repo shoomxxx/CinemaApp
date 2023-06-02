@@ -1,0 +1,48 @@
+﻿<Window x:Class="CinemaApp.View.Admin.CRUDFilm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:entityS="clr-namespace:CinemaApp.data.EntityS"
+      xmlns:local="clr-namespace:CinemaApp.View.Admin"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="CRUDFilm">
+
+    <DockPanel >
+        <Button Name="newList" Content="NewList" Click="newList_Click"></Button>
+        <DataGrid x:Name="myDataGrid" d:DataContext="{d:DesignInstance entityS:Get_All_Session}" AutoGenerateColumns="False" ColumnWidth="*" Style="{DynamicResource MaterialDesignDataGrid}" >
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Session_id_Film}"/>
+                <DataGridTextColumn Header="nameFilm" Binding="{Binding Film_Name_Film}" />
+                <DataGridTextColumn Header="DescriptionFilm" Binding="{Binding Film_Description}" />
+                <DataGridTextColumn Header="ActorsFilm" Binding="{Binding Film_Actors}" />
+                <DataGridTextColumn Header="priceFilm" Binding="{Binding Session_Price_Film}" />
+                <DataGridTextColumn Header="GenreFilm" Binding="{Binding Film_Genre}" />
+                <DataGridTextColumn Header="DataFilm" Binding="{Binding Session_Date_Film}" />
+                <DataGridTextColumn Header="Seats" Binding="{Binding Session_is_Deleted}" />
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Action" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="InsertBtn" Content="Insert" Click="InsertBtn_Click"/>
+                                <Button x:Name="updateBtn" Content="Update" Click="updateBtn_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

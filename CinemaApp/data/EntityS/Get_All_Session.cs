@@ -26,11 +26,12 @@ namespace CinemaApp.data.EntityS
         public string Inf_Cinema_Cinema_Description { get; set; }
         public string Inf_Cinema_Cinema_Adress { get; set; }
         public string Inf_Cinema_Cinema_Phone { get; set; }
-        public string Film_Name_Film { get; set; }
         public string Film_Description { get; set; }
         public string Film_Actors { get; set; }
         public string Film_Genre { get; set; }
         public Nullable<System.TimeSpan> Film_Duration { get; set; }
-        public byte[] Film_Image { get; set; }
+        public string Film_Image { get; set; }
+        public string Film_Name_Film { get; set; }
+        public bool Session_is_Deleted { get; set; }
     }
 }

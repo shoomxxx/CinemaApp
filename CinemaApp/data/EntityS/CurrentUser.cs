@@ -3,7 +3,7 @@ using System;
 
 namespace CinemaApp.data.EntityS
 {
-    
+
     public static class CurrentUser
     {
         public static int IdUser { get; set; }
@@ -16,5 +16,7 @@ namespace CinemaApp.data.EntityS
         public static System.DateTime? DateOfBirth { get; set; }
         public static string Mail { get; set; }
 
+        public static int Id_Role { get; set; }
+        public static string IdSession { get; set; }
     }
 }

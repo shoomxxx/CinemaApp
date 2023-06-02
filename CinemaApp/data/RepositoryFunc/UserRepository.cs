@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CinemaApp.data.EntityS;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace CinemaApp.data.RepositoryFunc
 {
@@ -24,6 +25,8 @@ namespace CinemaApp.data.RepositoryFunc
                     CurrentUser.Patronymic = client.Patronymic;
                     CurrentUser.DateOfBirth = client.Date_Of_Birth;
                     CurrentUser.PhoneNumber = client.Phone_number;
+                    CurrentUser.IdSession = Guid.NewGuid().ToString();
+                    CurrentUser.Id_Role = user.id_Role;
                     return user;
                 }
             }
@@ -34,13 +37,36 @@ namespace CinemaApp.data.RepositoryFunc
             }
         }
 
-        public User UserRegistration() // Регистрация
+        public User UserRegistration(string clientName, string clientSurname, string clientPatronymic, string clientMail, string clientPhone, DateTime clientDate, string clientLogin, string clientPassword) // Регистрация
         {
             try
             {
                 using (CinemaEntities db = new CinemaEntities())
                 {
-                    return db.User.FirstOrDefault();
+                    Client client = new Client();
+                    {
+                        client.Name = clientName;
+                        client.Surname = clientSurname;
+                        client.Patronymic = clientPatronymic;
+                        client.mail = clientMail;
+                        client.Phone_number = clientPhone;
+                        client.Date_Of_Birth = clientDate;
+                    }
+                    db.Client.Add(client);
+                    db.SaveChanges();
+
+                    User user = new User();
+                    {
+                        user.id_Client = db.Client.FirstOrDefault(x => x.Name == client.Name && x.Surname == client.Surname && x.Date_Of_Birth == client.Date_Of_Birth && x.Phone_number == client.Phone_number).id_Client;
+                        user.id_Role = 1;
+                        user.Login = clientLogin;
+                        user.Password = clientPassword;
+
+                    }
+                    db.User.Add(user);
+                    db.SaveChanges();
+                    
+                    return user;
                 }
             }
             catch (Exception err)

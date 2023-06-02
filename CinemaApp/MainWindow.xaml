@@ -6,8 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CinemaApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" AllowsTransparency ="True" WindowStyle="None">
-    <Grid Background="DarkGray">
-        <Frame Name="MainFrame" NavigationUIVisibility="Hidden"></Frame>
+        Title="MainWindow" WindowState="Maximized"
+        Background="#272537">
+    <Grid Background="#272537">
+        <Frame Name="MainFrame" Background="#272537" NavigationUIVisibility="Hidden"></Frame>
     </Grid>
 </Window>

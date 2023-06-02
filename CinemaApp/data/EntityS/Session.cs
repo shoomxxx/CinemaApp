@@ -27,6 +27,7 @@ namespace CinemaApp.data.EntityS
         public System.DateTime Date_Film { get; set; }
         public Nullable<int> Purchased_Tickets { get; set; }
         public int id_Cinema { get; set; }
+        public bool is_Deleted { get; set; }
     
         public virtual Film Film { get; set; }
         public virtual Hall Hall { get; set; }

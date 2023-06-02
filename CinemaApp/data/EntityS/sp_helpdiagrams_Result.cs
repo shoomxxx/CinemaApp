@@ -10,17 +10,13 @@
 namespace CinemaApp.data.EntityS
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Order
+    public partial class sp_helpdiagrams_Result
     {
-        public int id_Order { get; set; }
-        public int id_User { get; set; }
-        public Nullable<decimal> Grand_Total { get; set; }
-        public string Order_Details { get; set; }
-        public int id_Ticket { get; set; }
-        public string id_Session { get; set; }
-    
-        public virtual Ticket Ticket { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

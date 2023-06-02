@@ -1,0 +1,26 @@
+﻿<Page x:Class="CinemaApp.View.Client.UserRegistration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:CinemaApp.View.Client"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d"
+      Title="User_Registration" Height="450" Width="800">
+    <Grid Background="#272537">
+        <TextBox Name="Name" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ИМЯ" Style="{DynamicResource MaterialDesignTextBox}" Margin="50,100,436,309"/>
+        <TextBox Name="Surname" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ФАМИЛИЯ" Style="{DynamicResource MaterialDesignTextBox}" Margin="50,146,436,269" />
+        <TextBox Name="Post" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ПОЧТА" Style="{DynamicResource MaterialDesignTextBox}" Margin="50,231,436,175" />
+        <TextBox Name="Patronymic" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ОТЧЕСТВО" Style="{DynamicResource MaterialDesignTextBox}" Margin="50,190,436,219" />
+        <TextBox Name="Number" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="НОМЕР ТЕЛЕФОНА" Style="{DynamicResource MaterialDesignTextBox}" Margin="50,275,436,131" />
+
+        <TextBlock Name ="RegMainUp" Foreground="White" Style="{DynamicResource MaterialDesignHeadline2TextBlock}" Margin="35,64,491,352" FontFamily="Arial Black" FontSize="25" >Зарегестрируйтесь</TextBlock>
+        <Button Name="UserMainPg" Margin="703,392,11,10" Style="{DynamicResource MaterialDesignOutlinedButton}" Click="UserMainPG_Click" >Далее</Button>
+        <Button Name ="IfUserLogin" Margin="50,384,410,34" Click="IfUserLogin_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}">Уже зарегестрированы?</Button>
+        <Button Name="Home" Margin="700,-150,15,220" Click="Home_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}">Домой</Button>
+
+        <TextBox Name="Login" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ЛОГИН" Style="{DynamicResource MaterialDesignTextBox}" Margin="418,164,68,244"/>
+        <TextBox Name="Password" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ПАРОЛЬ" Style="{DynamicResource MaterialDesignTextBox}" Margin="418,210,68,204" />
+        <DatePicker Name="DateOfBirth" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ДАТА РОЖДЕНИЯ" Margin="50,319,436,87" />
+    </Grid>
+</Page>

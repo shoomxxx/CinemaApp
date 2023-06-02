@@ -12,7 +12,7 @@ namespace CinemaApp.data.EntityS
     using System;
     using System.Collections.Generic;
     
-    public partial class Client : IDisposable
+    public partial class Client
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
@@ -30,10 +30,5 @@ namespace CinemaApp.data.EntityS
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> User { get; set; }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

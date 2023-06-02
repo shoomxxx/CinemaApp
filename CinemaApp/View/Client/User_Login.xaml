@@ -7,11 +7,12 @@
         xmlns:local="clr-namespace:CinemaApp.View.Client"
         mc:Ignorable="d"
         Title="User_Login" Height="450" Width="800">
-    <Grid Background="White">
-        <TextBox Name="Login" FontSize="15" materialDesign:HintAssist.Hint="ЛОГИН" Style="{DynamicResource MaterialDesignTextBox}" Margin="53,133,345,272"/>
-        <TextBox Name="Password" FontSize="15" materialDesign:HintAssist.Hint="ПАРОЛЬ" Style="{DynamicResource MaterialDesignTextBox}" Margin="53,235,345,170" />
-        <TextBlock Name ="RegMainUp" Style="{DynamicResource MaterialDesignHeadline2TextBlock}" Foreground="Black" Margin="35,54,576,342" FontFamily="Arial Black" FontSize="25" >Авторизация</TextBlock>
+    <Grid Background="#272537">
+        <TextBox Name="Login" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ЛОГИН" Style="{DynamicResource MaterialDesignTextBox}" Margin="53,133,345,272"/>
+        <PasswordBox Name="Password" FontSize="15" Foreground="White" materialDesign:HintAssist.Hint="ПАРОЛЬ" Style="{DynamicResource MaterialDesignFilledRevealPasswordBox}" Margin="53,235,345,158" />
+        <TextBlock Name ="RegMainUp" Style="{DynamicResource MaterialDesignHeadline2TextBlock}" Foreground="White" Margin="35,54,576,342" FontFamily="Arial Black" FontSize="25" >Авторизация</TextBlock>
         <Button Name="UserMainPg" Margin="703,392,11,10" Style="{DynamicResource MaterialDesignOutlinedButton}" Click="UserMainPG_Click" >Далее</Button>
         <Button Name="UserReg" Margin="516,400,102,18" Style="{DynamicResource MaterialDesignOutlinedButton}" Click="User_Reg_Click" >Зарегестрироваться</Button>
+        <Button Name="Home" Margin="700,-150,15,220" Click="Home_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}">Домой</Button>
     </Grid>
 </Page>

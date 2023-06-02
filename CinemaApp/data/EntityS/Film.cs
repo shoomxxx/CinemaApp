@@ -19,14 +19,17 @@ namespace CinemaApp.data.EntityS
         {
             this.Session = new HashSet<Session>();
         }
-    
+        public override string ToString()
+        {
+            return $"{Name_Film}";
+        }
         public int id_Film { get; set; }
         public string Name_Film { get; set; }
         public string Description { get; set; }
         public string Actors { get; set; }
         public string Genre { get; set; }
         public Nullable<System.TimeSpan> Duration { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Session> Session { get; set; }

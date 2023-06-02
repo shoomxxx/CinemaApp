@@ -12,24 +12,14 @@ namespace CinemaApp.data.EntityS
     using System;
     using System.Collections.Generic;
     
-    public partial class Hall
+    public partial class CinemaPlace
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Hall()
-        {
-            this.Session = new HashSet<Session>();
-        }
-
-        public override string ToString()
-        {
-            return $"Зал номер {id_Hall}";
-        }
-
-        public int id_Hall { get; set; }
+        public int id_Session { get; set; }
         public int Row { get; set; }
-        public int Number_Seats { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Session> Session { get; set; }
+        public int Place { get; set; }
+        public int Num_Ticket { get; set; }
+        public int id_Ticket { get; set; }
+        public int id_Hall { get; set; }
+        public decimal Price_Film { get; set; }
     }
 }

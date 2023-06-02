@@ -37,6 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.3.0.0-ci0083\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.0.0-ci0083\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -52,6 +58,7 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1004\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
@@ -60,6 +67,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,6 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="data\EntityS\CinemaPlace.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="data\EntityS\Client.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -118,6 +129,15 @@
     <Compile Include="data\EntityS\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="data\EntityS\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="data\EntityS\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="data\EntityS\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="data\EntityS\Ticket.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -125,17 +145,35 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="data\Enums\Sort.cs" />
+    <Compile Include="data\RepositoryFunc\basketRepository.cs" />
+    <Compile Include="data\RepositoryFunc\CRUDAdmin.cs" />
+    <Compile Include="middle\check.cs" />
     <Compile Include="middle\Helper.cs" />
-    <Compile Include="View\Client\DetailedSession.xaml.cs">
-      <DependentUpon>DetailedSession.xaml</DependentUpon>
+    <Compile Include="View\Admin\CRUDFilm.xaml.cs">
+      <DependentUpon>CRUDFilm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\CRUDxaml\InsertPage.xaml.cs">
+      <DependentUpon>InsertPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\CRUDxaml\UpdatePage.xaml.cs">
+      <DependentUpon>UpdatePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\CustomMessageBox.xaml.cs">
+      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\FilmAdd.xaml.cs">
+      <DependentUpon>FilmAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Client\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Client\TicketBuy.xaml.cs">
+      <DependentUpon>TicketBuy.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Client\User_Login.xaml.cs">
       <DependentUpon>User_Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Client\User_Registration.xaml.cs">
+    <Compile Include="View\Default\User_Registration.xaml.cs">
       <DependentUpon>User_Registration.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Default\DetailedSessionPage.xaml.cs">
@@ -158,8 +196,25 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Client\DetailedSession.xaml" />
+    <Page Include="View\Admin\CRUDFilm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\CRUDxaml\InsertPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\CRUDxaml\UpdatePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\FilmAdd.xaml" />
     <Page Include="View\Client\HomePage.xaml" />
+    <Page Include="View\Client\TicketBuy.xaml" />
     <Page Include="View\Client\User_Backet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,7 +223,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Client\User_Registration.xaml" />
+    <Page Include="View\Default\User_Registration.xaml" />
     <Page Include="View\Default\DetailedSessionPage.xaml" />
     <Page Include="View\Default\ListViewSessionPage.xaml" />
   </ItemGroup>
@@ -207,16 +262,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\Admin\" />
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\EntityS\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="data\EntityS\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

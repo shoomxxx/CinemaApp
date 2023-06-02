@@ -28,9 +28,10 @@ namespace CinemaApp.data.EntityS
         public decimal Price_Ticket { get; set; }
         public int Row { get; set; }
         public int Place { get; set; }
+        public string Session { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Order { get; set; }
-        public virtual Session Session { get; set; }
+        public virtual Session Session1 { get; set; }
     }
 }

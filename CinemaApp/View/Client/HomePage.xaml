@@ -6,20 +6,21 @@
       xmlns:entityS="clr-namespace:CinemaApp.data.EntityS"
       xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
-      Title="HomePage" Height="450" Width="800">
-    <Grid Background="White">
+      Title="HomePage" Height="1080" Width="1920">
+    <Grid Background="#272537">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Fill="Black" />
-        <StackPanel Name="PanelForButton" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!--
-            <Button Width="120" Name="UserLogin" Click="User_Login_OnClick" Style="{DynamicResource MaterialDesignFlatAccentButton}" Foreground="White" TextElement.FontSize="15">Вход</Button>
-            <Button Width="120" x:Name="UserRegistration" Click="User_Registration_OnClick" Style="{DynamicResource MaterialDesignFlatAccentButton}" Foreground="White" TextElement.FontSize="15" Content="Регистрация"/>
-        -->
+        <Rectangle Grid.Row="0" Fill="Black">
+            <Rectangle.Effect>
+                <DropShadowEffect></DropShadowEffect>
+            </Rectangle.Effect>
+        </Rectangle>
+        <StackPanel Margin="0 0 300 0" Name="PanelForButton" Grid.Row="0" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
         </StackPanel>
-        <Frame Grid.Row="1" Name="DetailedSessionFrame"></Frame>
-        
+        <Frame Margin="300 10 300 0 " Grid.Row="1" Name="DetailedSessionFrame"></Frame>
+
     </Grid>
 </Page>

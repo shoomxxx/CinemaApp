@@ -5,7 +5,7 @@ using Word = Microsoft.Office.Interop.Word;
 
 namespace CinemaApp.middle
 {
-    internal class Helper
+    public class Helper
     {
         private readonly FileInfo _fileInfo;
 
@@ -14,7 +14,6 @@ namespace CinemaApp.middle
             if (File.Exists(fileName))
             {
                 _fileInfo = new FileInfo(fileName);
-
             }
             else
             {
@@ -23,7 +22,8 @@ namespace CinemaApp.middle
         }
 
         internal bool Process(Dictionary<string, string> items)
-        {
+        {//todo:  словарь явялется результатом рефлексии над клиентом: а не собирается руками
+            //todo: переехать на объектную модель openxml sdk ( название нугета есть в чатике)
             Word.Application app = null;
             try
             {
@@ -36,7 +36,7 @@ namespace CinemaApp.middle
 
                 foreach (var item in items)
                 {
-                    Word.Find find = app.Selection.Find;
+                    var find = app.Selection.Find;
                     find.Text = item.Key;
                     find.Replacement.Text = item.Value;
 
@@ -53,10 +53,16 @@ namespace CinemaApp.middle
                         Wrap: wrap,
                         Format: false,
                         ReplaceWith: missing, Replace: replace
-                        );
+                    );
                 }
-                Object newFileName = Path.Combine(_fileInfo.DirectoryName, DateTime.Now.ToString("yyyyMMdd HHmmss ") + _fileInfo.Name);
-                app.ActiveDocument.SaveAs2(newFileName);
+
+                if (_fileInfo.DirectoryName != null)
+                {
+                    Object newFileName = Path.Combine(_fileInfo.DirectoryName,
+                        DateTime.Now.ToString("yyyyMMdd HHmmss ") + Guid.NewGuid() + _fileInfo.Name);
+                    app.ActiveDocument.SaveAs2(newFileName);
+                }
+
                 app.ActiveDocument.Close();
                 return true;
             }
@@ -66,7 +72,7 @@ namespace CinemaApp.middle
             }
             finally
             {
-                if (app != null) { app.Quit(); }
+                app?.Quit();
             }
 
             return false;

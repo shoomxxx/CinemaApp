@@ -12,24 +12,12 @@ namespace CinemaApp.data.EntityS
     using System;
     using System.Collections.Generic;
     
-    public partial class Hall
+    public partial class sysdiagrams
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Hall()
-        {
-            this.Session = new HashSet<Session>();
-        }
-
-        public override string ToString()
-        {
-            return $"Зал номер {id_Hall}";
-        }
-
-        public int id_Hall { get; set; }
-        public int Row { get; set; }
-        public int Number_Seats { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Session> Session { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

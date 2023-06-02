@@ -6,45 +6,81 @@
       xmlns:entityS="clr-namespace:CinemaApp.data.EntityS"
       xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
-      Title="ListViewSessionPage" Height="450" Width="800">
-    <Grid>
+      Title="ListViewSessionPage" Height="1080" Width="1920"
+      Background="#272537">
+
+    <Grid Background="#272537">
         <Grid.RowDefinitions>
-        <RowDefinition Height="50"></RowDefinition>
-        <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-        <TextBox Grid.Row="0" Name="Search" TextChanged="Search_OnTextChanged" Background="White" HorizontalAlignment="Left" Width="300" Margin="7" wpf:HintAssist.Hint="ㅤПОИСК" ></TextBox>
-        <ComboBox Name="SessionFilter" SelectionChanged="SessionFilter_OnSelectionChanged">
-            <ComboBoxItem>
-                По умолчанию
-            </ComboBoxItem>
-            <ComboBoxItem>
-                По названию 
-            </ComboBoxItem>
-        </ComboBox>    
+            <TextBox Grid.Row="0" Name="Search" TextChanged="Search_OnTextChanged" Background="#272537"
+                     HorizontalAlignment="Left" Foreground="White" Width="300" Margin="7" wpf:HintAssist.Hint="ㅤПОИСК">
+            </TextBox>
+            <ComboBox Name="SessionFilter" Style="{DynamicResource MaterialDesignComboBox}"  SelectionChanged="SessionFilter_OnSelectionChanged" Foreground="White">
+                <ComboBoxItem Foreground="Red" >
+                    По умолчанию
+                </ComboBoxItem>
+                <ComboBoxItem Foreground="Red">
+                    По названию
+                </ComboBoxItem>
+            </ComboBox>
         </StackPanel>
-            <ListView Grid.Row="1" SelectionChanged="LCinemaView_OnSelectionChanged" Style="{DynamicResource MaterialDesignListView}" Name="LCinemaView" d:DataContext="{d:DesignInstance entityS:Get_All_Session}">
+        <ListView Grid.Row="1" SelectionChanged="LCinemaView_OnSelectionChanged"
+                  Style="{DynamicResource MaterialDesignListView}" Name="LCinemaView"
+                  d:DataContext="{d:DesignInstance entityS:Get_All_Session}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0" Width="750">
+                    <Grid Margin="0" Width="1920" Background="#272537">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="70"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text = "{Binding Path = Film_Name_Film}" Grid.Row="0" Margin="1 1 1 15" HorizontalAlignment="Left" FontSize="26" FontWeight="Bold"></TextBlock>
-                        <TextBlock Grid.Row="1" Text = "{Binding Film_Description}" VerticalAlignment="Center" TextAlignment="Center"
-                                  TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1 1 1 15" FontSize="15" FontWeight="Bold"></TextBlock>
-                        <TextBlock Grid.Row="1" Text = "{Binding Film_Actors}" VerticalAlignment="Center" TextAlignment="Right"
-                                   TextWrapping="Wrap" HorizontalAlignment="Right" Margin="1 1 1 15" FontSize="15" FontWeight="Bold"></TextBlock>
-                        <TextBlock Grid.Row="1" Text = "{Binding Film_Genre}" VerticalAlignment="Center" TextAlignment="Center"
-                                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="1 1 1 15" FontSize="15" FontWeight="Bold"></TextBlock>
-                        <StackPanel Grid.Row="3" HorizontalAlignment="Stretch" Orientation="Horizontal">
-                            <TextBlock Text = "{Binding StringFormat= Осталось {0} билетов, Path=Session_Purchased_Tickets}" Grid.Row="3" Margin="1 1 1 15" FontSize="14" HorizontalAlignment="Right"></TextBlock>
-                            <TextBlock Text = "{Binding StringFormat= Дата сеанса {0}, Path=Session_Date_Film}" Grid.Row="3" FontSize="14" Margin="1 1 1 15" HorizontalAlignment="Left"></TextBlock>
-                        </StackPanel>
-                       </Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="300"></ColumnDefinition>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                         <Image Width="240" Height="250" Stretch="Fill" Grid.Column="0" Grid.RowSpan="4" Grid.Row="0"
+                               HorizontalAlignment="Center" Source="{Binding Film_Image}">
+                        </Image>
+                        <TextBlock Text="{Binding Path = Film_Name_Film}" Grid.Row="0" Grid.Column="1"
+                                   Margin="1 10 1 15"
+                                   HorizontalAlignment="Left" FontSize="26"
+                                   FontWeight="Bold"
+                                   Foreground="White">
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Film_Description}"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1 -130 1 15" FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="White">
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Film_Actors}" VerticalAlignment="Center"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1 100 1 15" FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="White">
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Film_Genre}" VerticalAlignment="Center"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap" HorizontalAlignment="Left" Margin="200 1 1 15" FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="White">
+                        </TextBlock>
+                        <TextBlock Text="{Binding StringFormat= Дата сеанса {0}, Path=Session_Date_Film}"
+                                   Grid.Row="3" Grid.Column="4" FontSize="14" Margin="1 1 1 15"
+                                   HorizontalAlignment="Left"
+                                   Foreground="White">
+                        </TextBlock>
+
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

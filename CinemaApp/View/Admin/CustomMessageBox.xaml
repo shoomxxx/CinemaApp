@@ -1,0 +1,23 @@
+﻿<Window x:Class="CinemaApp.View.Admin.CustomMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CinemaApp.View.Admin"
+        mc:Ignorable="d"
+        Title="CustomMessageBox" Height="150" Width="360">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Center" Height="250" VerticalAlignment="Center" Width="357" Background="White" CornerRadius="5">
+            <Grid>
+                <TextBlock x:Name="tbMessageBoxCaption" FontWeight="SemiBold" Margin="30,43,10,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontFamily="Poppins" FontSize="14"/>
+                <TextBlock x:Name="tbMessageBoxMessage" Margin="30,80,10,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontFamily="Poppins"/>
+                <StackPanel Name="Buttons" Orientation="Horizontal">
+                    <Button x:Name="btnMessageBoxYes" Style="{DynamicResource MaterialDesignOutlinedButton}" FontWeight="SemiBold" Content="REDACT" Margin="10" Click="btnMessageBoxYes_Click"/>
+                    <Button x:Name="btnMessageBoxNo" Style="{DynamicResource MaterialDesignOutlinedButton}" FontWeight="SemiBold" Content="DELETE" Margin="10" Click="btnMessageBoxNo_Click"/>
+                    <Button x:Name="btnMessageBoxCancel" Style="{DynamicResource MaterialDesignOutlinedButton}" FontWeight="SemiBold" Content="GO TO DETAILED" Margin="10" Click="btnMessageBoxCancel_Click"/>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,19 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using CinemaApp.data.EntityS;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace CinemaApp.data.RepositoryFunc
-{ 
+{
     public class SessionsRepository
     {
+        private Get_All_Session _allSession = new Get_All_Session();
+
         public List<Get_All_Session> ManySessions() //Показать все сеансы
         {
             try
             {
                 using (CinemaEntities db = new CinemaEntities())
                 {
-                    return db.Get_All_Session.ToList();
+                    return db.Get_All_Session.Where(x => x.Session_is_Deleted == true).ToList();
                 }
             }
             catch (Exception err)
@@ -61,9 +70,10 @@ namespace CinemaApp.data.RepositoryFunc
             {
                 using (CinemaEntities db = new CinemaEntities())
                 {
-                    db.Session.Remove(entity);
-                    db.SaveChangesAsync();
-                    return null;
+                    var s1 = db.Session.FirstOrDefault(x => x.id_Session == entity.id_Session);
+                    s1.is_Deleted = false;
+                    db.SaveChanges();
+                    return s1;
                 }
             }
             catch (Exception err)
@@ -73,38 +83,27 @@ namespace CinemaApp.data.RepositoryFunc
             }
         }
 
-        public Session AddSession(Session entity) //Добавление сеансов
-        {
-            try
-            {
-                using (CinemaEntities db = new CinemaEntities())
+        /*        public Film AddSession(Film film) //Добавление сеансов
                 {
-                    db.Session.Add(entity);
-                    db.SaveChangesAsync();
-                    return null;
-                }
-            }
-            catch (Exception err)
-            {
-                Console.WriteLine(err.Message);
-                return null;
-            }
-        }
 
-        public Session EditSession() //Редактирование сеансов
+                }
+        */
+        public void EditSession(Get_All_Session film) //Редактирование сеансов
         {
             try
             {
                 using (CinemaEntities db = new CinemaEntities())
                 {
-                    return db.Session.FirstOrDefault();
+                    var EDIT = db.Film.Where(x => x.id_Film == film.Session_id_Film).FirstOrDefault();
+
                 }
             }
             catch (Exception err)
             {
                 Console.WriteLine(err.Message);
-                return null;
+                return;
             }
+
         }
 
         public static List<Get_All_Session> SearchSession(string x, int idSort = -1)
@@ -116,8 +115,11 @@ namespace CinemaApp.data.RepositoryFunc
                     switch (idSort)
                     {
                         case 1:
-                            return db.Get_All_Session.Where(session => session.Film_Name_Film.Contains(x)).OrderBy(session => session.Film_Name_Film).ToList();
-                        default: return db.Get_All_Session.Where(session => session.Film_Name_Film.Contains(x)).OrderBy(session => session.Session_Date_Film).ToList();
+                            return db.Get_All_Session.Where(session => session.Film_Name_Film.Contains(x))
+                                .OrderBy(session => session.Film_Name_Film).ToList();
+                        default:
+                            return db.Get_All_Session.Where(session => session.Film_Name_Film.Contains(x))
+                                .OrderBy(session => session.Session_Date_Film).ToList();
                     }
                 }
             }

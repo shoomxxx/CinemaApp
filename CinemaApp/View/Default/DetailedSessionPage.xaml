@@ -5,12 +5,32 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:entityS1="clr-namespace:CinemaApp.data.EntityS"
       mc:Ignorable="d"
-      Title="DetailedSessionPage" Height="450" Width="800">
-    <Grid>
-        <StackPanel Orientation="Vertical" d:DataContext="{d:DesignInstance entityS1:Get_All_Session}">
-            <TextBlock Name="SessionTitle" Text="{Binding Film_Name_Film}" ></TextBlock>
-            <TextBlock Name="IdSession" Text="{Binding Session_id_Film}"></TextBlock>
-            <Button Name="CloseButton" Click="CloseButton_OnClick" Margin="1 1 1 15">END</Button>
+      Title="DetailedSessionPage" Height="1080" Width="1920">
+    <Grid d:DataContext="{d:DesignInstance entityS1:Get_All_Session}" Background="#272537">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Width="350" Height="350" VerticalAlignment="Top" Margin="1 30 1 1"
+               Source="{Binding Film_Image}">
+        </Image>
+
+        <Button Name="OrderPlace" HorizontalAlignment="Center"
+                Width="350" Height="50" 
+                Click="OrderPlace_Click"
+                Style="{DynamicResource MaterialDesignOutlinedButton}">
+            Забронировать место
+        </Button>
+        <Button Name="Behind" Content="Назад" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" Margin="0,-2,0,1050" Width="110" Click="Behind_Click"/>
+        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="1 30 1 1 ">
+            <TextBlock Name="SessionTitle" Text="{Binding Film_Name_Film}" FontSize="34" Foreground="White"></TextBlock>
+            <TextBlock Name="SessionDesc" Text="{Binding StringFormat=Описание: {0}, Path=Film_Description}" FontSize="24" Foreground="White"></TextBlock>
+            <TextBlock Name="SessionDuration" Text="{Binding StringFormat=Длительность фильма {0}, Path=Film_Duration}" FontSize="24" Foreground="White"></TextBlock>
+            <TextBlock Name="SessionActors" Text="{Binding StringFormat=Актеры фильма {0}, Path= Film_Actors}" FontSize="24" Foreground="White"></TextBlock>
+
+            <TextBlock Name="ForComboRow"></TextBlock>
+            <TextBlock Name="ForComboPlace"></TextBlock>
+
         </StackPanel>
     </Grid>
 </Page>
