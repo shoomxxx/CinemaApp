@@ -42,7 +42,7 @@ namespace CinemaApp.middle
                 sum += item.Price_Ticket;
 
                 var items = new Dictionary<string, string>
-            {
+    {
                 { "<FIO>", fio },
                 { "<MAIL>", Client.mail },
                 { "<PhoneNumber>", Client.Phone_number },
@@ -56,7 +56,6 @@ namespace CinemaApp.middle
                    ? "Файл успешно экспортирован в Word"
                    : "Возникли проблемы с экспортом файла");
             }
-
-        }
+        
     }
 }

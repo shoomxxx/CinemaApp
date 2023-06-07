@@ -50,7 +50,7 @@
               SelectedValuePath="id_Hall"
               SelectionChanged="hallComboBox_SelectionChanged"
                />
-
+        
         <Button Name="SaveButton" Foreground="White" Grid.Row="7" Width="250" Height="50" HorizontalAlignment="Center" Content="Сохранить"
                 Click="SaveButton_OnClick" />
     </Grid>

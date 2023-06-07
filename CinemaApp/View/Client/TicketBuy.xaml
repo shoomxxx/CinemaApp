@@ -24,7 +24,7 @@
             <Button Content="Создать заказ" DockPanel.Dock="Bottom" Click="ButtonAdd_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}"></Button>
             <Button Name="betaCheck" Content="Получить чек" DockPanel.Dock="Bottom" Click="BetaCheck_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}"></Button>
             <DataGrid Foreground="White" Name="BacketView" Background="#272537" DockPanel.Dock="Top" >
-                
+        
             </DataGrid>
         </DockPanel>
     </Grid>

@@ -64,7 +64,7 @@ namespace CinemaApp.data.RepositoryFunc
                 }
             }
             catch (Exception err)
-            {
+    {
                 Console.WriteLine(err.Message);
                 return false;
             }
@@ -72,6 +72,6 @@ namespace CinemaApp.data.RepositoryFunc
             return true;
         }
 
-
+        
     }
 }
