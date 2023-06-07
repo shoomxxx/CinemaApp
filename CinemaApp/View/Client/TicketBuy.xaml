@@ -22,7 +22,7 @@
         <DockPanel Grid.Column="1" Background="#272537">
             <Button Content="Очистить корзину" DockPanel.Dock="Bottom" Click="ButtonClear_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}"></Button>
             <Button Content="Создать заказ" DockPanel.Dock="Bottom" Click="ButtonAdd_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}"></Button>
-            <Button Name="betaCheck" Content="Бета-версия чека" DockPanel.Dock="Bottom" Click="BetaCheck_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}"></Button>
+            <Button Name="betaCheck" Content="Получить чек" DockPanel.Dock="Bottom" Click="BetaCheck_OnClick" Style="{DynamicResource MaterialDesignOutlinedButton}"></Button>
             <DataGrid Foreground="White" Name="BacketView" Background="#272537" DockPanel.Dock="Top" >
                 
             </DataGrid>

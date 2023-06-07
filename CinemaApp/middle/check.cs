@@ -23,14 +23,17 @@ namespace CinemaApp.middle
             Client.Patronymic = CurrentUser.Patronymic;
             Client.mail = CurrentUser.Mail;
             Client.Phone_number = CurrentUser.PhoneNumber;
+            //data = CurrentUser.DateOfBirth.ToString(); 
 
-            //var ticket = new Ticket();
+            var ticket = new Ticket();
 
-            var helper = new Helper(@"C:\Users\Shoom\Desktop\Шумилин ПКС-303\КП\WPF\KP\CinemaApp\Check.doc");
+            var helper = new Helper(@"C:\Users\Shoom\Desktop\Шумилин ПКС-303\КП\WPF\Cinema\CinemaApp\Check.doc");
 
             var fio = Client.Name + " " + Client.Surname + " " + Client.Patronymic;
             string forCheck = "";
             decimal sum = 0;
+            string date = "2023.01.05 12:00:00";
+            
 
             foreach (var item in tickets)
             {
@@ -46,7 +49,8 @@ namespace CinemaApp.middle
                 { "<NameFilm>", filmName.Name_Film},
                 { "<Place>", item.Place.ToString()},
                 { "<Row>", item.Row.ToString()},
-                { "<Price>", item.Price_Ticket.ToString()}
+                { "<Price>", item.Price_Ticket.ToString()},
+                    { "<Date>", date}
             };
                 MessageBox.Show(helper.Process(items)
                    ? "Файл успешно экспортирован в Word"
